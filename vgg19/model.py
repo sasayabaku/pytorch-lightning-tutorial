@@ -12,10 +12,10 @@ class Vgg19Base(pl.LightningModule):
 
         self.define_metrics()
 
-        raise NotImplementedError
+        assert NotImplementedError
 
     def forward(self, inputs):
-        raise NotImplementedError
+        assert NotImplementedError
 
     def define_metrics(self):
         self.criterion = torch.nn.CrossEntropyLoss()
@@ -49,7 +49,7 @@ class Vgg19Base(pl.LightningModule):
         data, labels = batch
         outputs = self.forward(data)
 
-        loss = self.crterion(outputs, labels)
+        loss = self.criterion(outputs, labels)
         self.valid_acc(outputs, labels)
 
         self.log('valid_acc', self.valid_acc, on_step=False, on_epoch=True, prog_bar=True)
