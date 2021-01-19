@@ -1,9 +1,12 @@
 import torch
 import torch.nn.functional as F
 import pytorch_lightning as pl
-from torchvision.models import resnet152
+from torchvision.models import resnet18, resnet152
 
-__all__ = ['ResNet152Transfer', 'ResNet152FineTuning']
+__all__ = [
+    'ResNet18Transfer', 'ResNet18FineTuning',
+    'ResNet152Transfer', 'ResNet152FineTuning'
+    ]
 
 
 class LightningBase(pl.LightningModule):
@@ -23,7 +26,7 @@ class LightningBase(pl.LightningModule):
         self.valid_acc = pl.metrics.Accuracy()
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(self.parameters(), lr=0.1, momentum=0.9)
+        optimizer = torch.optim.SGD(self.parameters(), lr=0.01, momentum=0.9)
         lambda_func = lambda epoch: 0.95 ** epoch
         lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda_func)
 
@@ -58,7 +61,38 @@ class LightningBase(pl.LightningModule):
         self.log('valid_acc', self.valid_acc.compute(), on_step=False, on_epoch=True, prog_bar=True, logger=True)
 
 
-class ResNet152Transfer(LightningBase):
+class ResNet18FineTuning(LightningBase):
+    def __init__(self, n_class):
+        super().__init__()
+
+        self.model = resnet18(pretrained=True)
+        resnet_feature_extraction_output_dim = self.model.fc.in_features
+        self.model.fc = torch.nn.Linear(resnet_feature_extraction_output_dim, n_class)
+
+    def forward(self, x):
+        x = self.model(x)
+        x = F.log_softmax(x, dim=1)
+        return x
+
+
+class ResNet18Transfer(LightningBase):
+    def __init__(self, n_class):
+        super().__init__()
+
+        self.model = resnet18(pretrained=True)
+        for param in self.model.parameters():
+            param.requires_grad = False
+
+        resnet_feature_extraction_output_dim = self.model.fc.in_features
+        self.model.fc = torch.nn.Linear(resnet_feature_extraction_output_dim, n_class)
+
+    def forward(self, x):
+        x = self.model(x)
+        x = F.log_softmax(x, dim=1)
+        return x
+
+
+class ResNet152FineTuning(LightningBase):
     def __init__(self, n_class):
         super().__init__()
 
@@ -72,9 +106,9 @@ class ResNet152Transfer(LightningBase):
         return x
 
 
-class ResNet152FineTuning(LightningBase):
+class ResNet152Transfer(LightningBase):
     def __init__(self, n_class):
-        super(ResNet152FineTuning, self).__init__()
+        super().__init__()
 
         self.model = resnet152(pretrained=True)
         for param in self.model.parameters():
