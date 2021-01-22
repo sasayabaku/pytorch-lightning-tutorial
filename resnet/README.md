@@ -1,6 +1,6 @@
 # 学習済みモデルの活用
 
-<a href="https://www.kaggle.com/sasayabaku/resnet-cifar10-transfer-learning-fine-tuning">
+<a href="https://www.kaggle.com/sasayabaku/resnet-cifar10-transfer-learning-fine-tuning" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/kaggle-Notebook-blue?logo=kaggle" />
 </a>
 
