@@ -1,5 +1,7 @@
 # pytorch-lightning-tutorial
 
+![](./assets/top_logo.png)
+
 pytorch-lightning notebook for beginner
 
 1. [VGG19](#vgg19)
