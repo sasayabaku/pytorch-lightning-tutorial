@@ -1,6 +1,8 @@
 # 学習済みモデルの活用
 
-<a href=""><img src="https://img.shields.io/badge/Colab-Notebook-blueviolet?logo=google-colab" /></a>
+<a href="https://www.kaggle.com/sasayabaku/vgg19-cifar10-transfer-learning-fine-tuning" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/badge/kaggle-Notebook-blue?logo=kaggle" />
+</a>
 
 VGG19にCIFAR-10を再学習させるNotebook  
 
