@@ -3,6 +3,10 @@ import torch.nn.functional as F
 import pytorch_lightning as pl
 from torchvision.models import vgg19
 
+__all__ = [
+    'VGG19Transfer', 'VGG19FineTuning'
+]
+
 
 class Vgg19Base(pl.LightningModule):
 
@@ -23,7 +27,7 @@ class Vgg19Base(pl.LightningModule):
         self.valid_acc = pl.metrics.Accuracy()
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(self.parameters(), lr=0.1, momentum=0.9)
+        optimizer = torch.optim.SGD(self.parameters(), lr=0.01, momentum=0.9)
         lambda_func = lambda epoch: 0.95 ** epoch
         lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda_func)
 
