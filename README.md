@@ -2,8 +2,8 @@
 
 pytorch-lightning notebook for beginner
 
-1. VGG19
-1. ResNet
+1. [VGG19](#vgg19)
+1. [ResNet](#resnet)
 
 # Contents
 
